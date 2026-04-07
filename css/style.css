@@ -255,6 +255,7 @@ button { cursor: pointer; background: none; border: none; font: inherit; }
     text-transform: uppercase; letter-spacing: 0.08em;
     color: #7B2D50;
   }
+  [data-theme="dark"] .nav__drawer-header span { color: #C97A9A; }
   .nav__close {
     display: flex; align-items: center; justify-content: center;
     width: 36px; height: 36px;
@@ -279,6 +280,7 @@ button { cursor: pointer; background: none; border: none; font: inherit; }
   .nav__links a:active { background: #F0EDEA; }
   [data-theme="dark"] .nav__links a:active { background: #2A2922; }
   .nav__links a.active { color: #7B2D50; }
+  [data-theme="dark"] .nav__links a.active { color: #C97A9A; }
 
   .nav__overlay {
     position: fixed; inset: 0;
