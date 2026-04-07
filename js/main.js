@@ -35,33 +35,128 @@
     }, { passive: true });
   }
 
-  // Mobile nav
+  // Mobile nav drawer with swipe
   const navToggle = document.querySelector('.nav__toggle');
   const navLinks = document.querySelector('.nav__links');
   const navOverlay = document.querySelector('.nav__overlay');
   const navClose = document.querySelector('.nav__close');
-  const hamburgerIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>';
-
-  function closeNav() {
-    navLinks.classList.remove('open');
-    if (navOverlay) navOverlay.classList.remove('open');
-    navToggle.innerHTML = hamburgerIcon;
-  }
 
   if (navToggle && navLinks) {
-    navToggle.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('open');
-      if (navOverlay) navOverlay.classList.toggle('open', isOpen);
-      navToggle.innerHTML = isOpen
-        ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>'
-        : hamburgerIcon;
-    });
-    if (navOverlay) navOverlay.addEventListener('click', closeNav);
+    const drawerWidth = () => navLinks.offsetWidth;
+    let isOpen = false;
+
+    function openNav() {
+      isOpen = true;
+      navLinks.classList.add('open');
+      navLinks.classList.remove('dragging');
+      navLinks.style.transform = '';
+      if (navOverlay) {
+        navOverlay.classList.add('open');
+        navOverlay.classList.remove('dragging');
+        navOverlay.style.opacity = '';
+      }
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeNav() {
+      isOpen = false;
+      navLinks.classList.remove('open');
+      navLinks.classList.remove('dragging');
+      navLinks.style.transform = '';
+      if (navOverlay) {
+        navOverlay.classList.remove('open');
+        navOverlay.classList.remove('dragging');
+        navOverlay.style.opacity = '';
+      }
+      document.body.style.overflow = '';
+    }
+
+    // Button triggers
+    navToggle.addEventListener('click', () => { if (!isOpen) openNav(); else closeNav(); });
     if (navClose) navClose.addEventListener('click', closeNav);
-    // Close menu when a link is tapped
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', closeNav);
-    });
+    if (navOverlay) navOverlay.addEventListener('click', closeNav);
+
+    // Close on link tap
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
+
+    // Touch swipe handling
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchCurrentX = 0;
+    let isDragging = false;
+    let edgeSwipe = false;
+    const EDGE_ZONE = 30; // px from right edge to trigger open swipe
+    const SWIPE_THRESHOLD = 60;
+
+    document.addEventListener('touchstart', (e) => {
+      if (window.innerWidth > 768) return;
+      const touch = e.touches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      touchCurrentX = touchStartX;
+      isDragging = false;
+      edgeSwipe = false;
+
+      // Detect swipe from right edge to open
+      if (!isOpen && touchStartX > window.innerWidth - EDGE_ZONE) {
+        edgeSwipe = true;
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+      if (window.innerWidth > 768) return;
+      const touch = e.touches[0];
+      const dx = touch.clientX - touchStartX;
+      const dy = touch.clientY - touchStartY;
+
+      // Only engage if horizontal movement dominates
+      if (!isDragging && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
+        isDragging = true;
+        navLinks.classList.add('dragging');
+        if (navOverlay) navOverlay.classList.add('dragging');
+      }
+
+      if (!isDragging) return;
+      touchCurrentX = touch.clientX;
+
+      if (isOpen) {
+        // Dragging to close (swipe right)
+        const offset = Math.max(0, touchCurrentX - touchStartX);
+        navLinks.style.transform = 'translateX(' + offset + 'px)';
+        if (navOverlay) {
+          const progress = 1 - (offset / drawerWidth());
+          navOverlay.style.opacity = Math.max(0, progress);
+        }
+      } else if (edgeSwipe) {
+        // Dragging to open (swipe left from right edge)
+        const offset = Math.max(0, drawerWidth() + (touchCurrentX - touchStartX));
+        const clampedOffset = Math.min(drawerWidth(), offset);
+        navLinks.style.transform = 'translateX(' + (drawerWidth() - clampedOffset) + 'px)';
+        if (navOverlay) {
+          navOverlay.classList.add('open');
+          navOverlay.style.opacity = clampedOffset / drawerWidth();
+        }
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      navLinks.classList.remove('dragging');
+      if (navOverlay) navOverlay.classList.remove('dragging');
+
+      const dx = touchCurrentX - touchStartX;
+
+      if (isOpen) {
+        // If swiped right past threshold, close
+        if (dx > SWIPE_THRESHOLD) closeNav();
+        else openNav(); // snap back open
+      } else if (edgeSwipe) {
+        // If swiped left past threshold, open
+        if (dx < -SWIPE_THRESHOLD) openNav();
+        else closeNav(); // snap back closed
+      }
+    }, { passive: true });
   }
 
   // Scroll-triggered animations
