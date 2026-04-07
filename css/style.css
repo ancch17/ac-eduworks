@@ -218,25 +218,48 @@ button { cursor: pointer; background: none; border: none; font: inherit; }
 .theme-toggle:hover { color: var(--color-text); background: var(--color-surface-2); }
 
 /* Mobile Nav */
+.nav__close { display: none; }
 @media (max-width: 768px) {
   .nav__toggle { display: flex; }
   .nav__links {
     position: fixed; top: 0; right: 0; bottom: 0;
     width: min(320px, 85vw);
     flex-direction: column; align-items: flex-start;
-    padding: var(--space-20) var(--space-8) var(--space-8);
-    background: var(--color-bg);
+    padding: 80px var(--space-8) var(--space-8);
+    background: #FAFAF8;
     border-left: 1px solid var(--color-divider);
-    box-shadow: var(--shadow-lg);
+    box-shadow: -4px 0 24px rgba(0,0,0,0.15);
     transform: translateX(100%);
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 200;
     gap: var(--space-6);
+    overflow-y: auto;
   }
+  [data-theme="dark"] .nav__links { background: #1A1916; }
+  @media (prefers-color-scheme: dark) { .nav__links { background: #1A1916; } }
   .nav__links.open { transform: translateX(0); }
-  .nav__links a { font-size: var(--text-lg); }
+  .nav__links a {
+    font-size: var(--text-lg); font-weight: 600;
+    color: #2D2A24; opacity: 1;
+    padding: var(--space-3) 0;
+    width: 100%; display: block;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  [data-theme="dark"] .nav__links a { color: #D4D2CE; border-bottom-color: rgba(255,255,255,0.1); }
+  @media (prefers-color-scheme: dark) { .nav__links a { color: #D4D2CE; border-bottom-color: rgba(255,255,255,0.1); } }
+  .nav__links a:hover, .nav__links a.active { color: #7B2D50; }
+  .nav__close {
+    display: flex; align-items: center; justify-content: center;
+    position: absolute; top: 20px; right: 20px;
+    width: 40px; height: 40px;
+    background: none; border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 50%; cursor: pointer;
+    color: #2D2A24; z-index: 201;
+  }
+  [data-theme="dark"] .nav__close { color: #D4D2CE; border-color: rgba(255,255,255,0.15); }
+  @media (prefers-color-scheme: dark) { .nav__close { color: #D4D2CE; border-color: rgba(255,255,255,0.15); } }
   .nav__overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
     z-index: 199; opacity: 0; visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
   }

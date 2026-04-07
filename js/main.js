@@ -39,21 +39,29 @@
   const navToggle = document.querySelector('.nav__toggle');
   const navLinks = document.querySelector('.nav__links');
   const navOverlay = document.querySelector('.nav__overlay');
+  const navClose = document.querySelector('.nav__close');
+  const hamburgerIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>';
+
+  function closeNav() {
+    navLinks.classList.remove('open');
+    if (navOverlay) navOverlay.classList.remove('open');
+    navToggle.innerHTML = hamburgerIcon;
+  }
+
   if (navToggle && navLinks) {
     navToggle.addEventListener('click', () => {
       const isOpen = navLinks.classList.toggle('open');
       if (navOverlay) navOverlay.classList.toggle('open', isOpen);
       navToggle.innerHTML = isOpen
         ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>'
-        : '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>';
+        : hamburgerIcon;
     });
-    if (navOverlay) {
-      navOverlay.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        navOverlay.classList.remove('open');
-        navToggle.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>';
-      });
-    }
+    if (navOverlay) navOverlay.addEventListener('click', closeNav);
+    if (navClose) navClose.addEventListener('click', closeNav);
+    // Close menu when a link is tapped
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeNav);
+    });
   }
 
   // Scroll-triggered animations
