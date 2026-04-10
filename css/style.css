@@ -296,6 +296,27 @@ button { cursor: pointer; background: none; border: none; font: inherit; }
   .nav__overlay.open { opacity: 1; visibility: visible; }
 }
 
+
+/* ── Rebrand Announcement Banner ── */
+.rebrand-banner {
+  background: linear-gradient(90deg, #7B2D50, #2A7F7F);
+  color: #fff;
+  text-align: center;
+  padding: 10px var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  position: relative;
+  z-index: 500;
+}
+.rebrand-banner a {
+  color: #fff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin-left: 6px;
+}
+.rebrand-banner a:hover { opacity: 0.85; }
+
 /* ---------- BUTTONS ---------- */
 .btn {
   display: inline-flex; align-items: center; gap: var(--space-2);

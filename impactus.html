@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <title>Impactus Learning — Empowering Minds</title>
+  <meta name="description" content="Impactus Learning delivers world-class Gen AI training for professionals and corporates. Formerly AC-Eduworks, led by Dr. Andrew Chew.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── Impactus Learning – custom tokens ── */
+    :root {
+      --il-dark:    #0D1117;
+      --il-darker:  #070A0E;
+      --il-teal:    #2A7F7F;
+      --il-teal-lt: #3BA8A8;
+      --il-maroon:  #7B2D50;
+      --il-text:    #E8E6E3;
+      --il-muted:   rgba(232,230,227,0.55);
+      --il-border:  rgba(255,255,255,0.08);
+    }
+
+    /* ── Reset for this page ── */
+    .il-page { background: var(--il-dark); min-height: 100vh; }
+
+    /* ── NAV ── */
+    .il-header {
+      position: sticky; top: 0; z-index: 400;
+      background: rgba(13,17,23,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--il-border);
+    }
+    .il-nav {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+    }
+    .il-nav__logo img {
+      height: 40px; width: auto; object-fit: contain;
+    }
+    .il-nav__links {
+      display: flex; align-items: center; gap: 32px;
+      list-style: none; margin: 0; padding: 0;
+    }
+    .il-nav__links a {
+      font-size: 14px; font-weight: 500;
+      color: var(--il-muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .il-nav__links a:hover { color: var(--il-text); }
+    .il-nav__cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--il-teal); color: #fff;
+      font-size: 14px; font-weight: 600; padding: 10px 22px;
+      border-radius: 100px; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .il-nav__cta:hover { background: var(--il-teal-lt); }
+    .il-subbrand {
+      font-size: 12px; color: var(--il-muted);
+      text-align: center; padding: 8px;
+      background: rgba(123,45,80,0.15);
+      border-bottom: 1px solid rgba(123,45,80,0.2);
+    }
+    .il-subbrand a { color: var(--il-teal-lt); text-decoration: none; font-weight: 600; }
+    .il-subbrand a:hover { text-decoration: underline; }
+
+    /* ── Mobile nav for Impactus ── */
+    .il-nav__toggle {
+      display: none; align-items: center; justify-content: center;
+      width: 40px; height: 40px;
+      background: none; border: 1px solid var(--il-border);
+      border-radius: 8px; cursor: pointer; color: var(--il-text);
+    }
+    @media (max-width: 768px) {
+      .il-nav__links { display: none; }
+      .il-nav__cta { display: none; }
+      .il-nav__toggle { display: flex; }
+    }
+
+    /* ── HERO ── */
+    .il-hero {
+      position: relative; overflow: hidden;
+      padding: 120px 0 100px;
+      text-align: center;
+      background: var(--il-dark);
+    }
+    .il-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% -10%, rgba(42,127,127,0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(123,45,80,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .il-hero__grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(42,127,127,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(42,127,127,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 0%, transparent 70%);
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 0%, transparent 70%);
+    }
+    .il-hero__badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(42,127,127,0.15);
+      border: 1px solid rgba(42,127,127,0.3);
+      color: var(--il-teal-lt);
+      font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 6px 18px;
+      border-radius: 100px; margin-bottom: 32px;
+    }
+    .il-hero__badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--il-teal-lt);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
+    }
+    .il-hero__title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(2.6rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      color: var(--il-text);
+      margin-bottom: 24px;
+      max-width: 820px;
+      margin-left: auto; margin-right: auto;
+    }
+    .il-hero__title span { color: var(--il-teal-lt); }
+    .il-hero__sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--il-muted); line-height: 1.75;
+      max-width: 580px; margin: 0 auto 48px;
+    }
+    .il-hero__actions {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 72px;
+    }
+    .il-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 15px; font-weight: 600;
+      padding: 14px 32px; border-radius: 100px;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .il-btn--primary {
+      background: linear-gradient(135deg, var(--il-teal), var(--il-teal-lt));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(42,127,127,0.35);
+    }
+    .il-btn--primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(42,127,127,0.5);
+    }
+    .il-btn--ghost {
+      border: 1px solid var(--il-border);
+      color: var(--il-text);
+      background: rgba(255,255,255,0.04);
+    }
+    .il-btn--ghost:hover { background: rgba(255,255,255,0.08); }
+
+    /* ── Logo showcase in hero ── */
+    .il-hero__logo-wrap {
+      display: inline-block;
+      background: #fff; border-radius: 16px;
+      padding: 20px 40px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 20px 60px rgba(0,0,0,0.4);
+      margin-bottom: 20px;
+    }
+    .il-hero__logo-wrap img {
+      height: 52px; width: auto; display: block;
+    }
+
+    /* ── Stats bar ── */
+    .il-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: var(--il-border);
+      border: 1px solid var(--il-border); border-radius: 16px;
+      overflow: hidden; max-width: 800px; margin: 0 auto;
+    }
+    .il-stat {
+      background: rgba(255,255,255,0.03);
+      padding: 28px 20px; text-align: center;
+    }
+    .il-stat__number {
+      font-family: var(--font-display); font-size: 2.2rem;
+      color: var(--il-teal-lt); line-height: 1; margin-bottom: 6px;
+    }
+    .il-stat__label {
+      font-size: 12px; font-weight: 500;
+      color: var(--il-muted); letter-spacing: 0.04em;
+    }
+    @media (max-width: 600px) {
+      .il-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ── Sections ── */
+    .il-section {
+      padding: 100px 0;
+      border-top: 1px solid var(--il-border);
+    }
+    .il-section__tag {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--il-teal-lt);
+      margin-bottom: 12px;
+    }
+    .il-section__title {
+      font-family: var(--font-display); font-style: italic;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      color: var(--il-text); line-height: 1.2; margin-bottom: 20px;
+    }
+    .il-section__body {
+      font-size: 16px; color: var(--il-muted); line-height: 1.85;
+      max-width: 620px;
+    }
+    .il-section__body p + p { margin-top: 16px; }
+    .il-section__body strong { color: var(--il-text); font-weight: 600; }
+
+    /* two-col layout */
+    .il-two-col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    @media (max-width: 768px) {
+      .il-two-col { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    /* ── Pillars ── */
+    .il-pillars {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; margin-top: 48px;
+    }
+    @media (max-width: 768px) { .il-pillars { grid-template-columns: 1fr; } }
+    .il-pillar {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--il-border);
+      border-radius: 16px; padding: 28px 24px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .il-pillar:hover {
+      border-color: rgba(42,127,127,0.3);
+      background: rgba(42,127,127,0.05);
+    }
+    .il-pillar__icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(42,127,127,0.15);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--il-teal-lt); margin-bottom: 16px;
+    }
+    .il-pillar__title {
+      font-weight: 700; font-size: 15px; color: var(--il-text);
+      margin-bottom: 8px;
+    }
+    .il-pillar__desc {
+      font-size: 14px; color: var(--il-muted); line-height: 1.7;
+    }
+
+    /* ── Courses ── */
+    .il-courses {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px; margin-top: 48px;
+    }
+    .il-course {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--il-border); border-radius: 16px;
+      padding: 28px; transition: border-color 0.25s, transform 0.25s;
+    }
+    .il-course:hover { border-color: rgba(42,127,127,0.35); transform: translateY(-3px); }
+    .il-course__tag {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--il-teal-lt); background: rgba(42,127,127,0.12);
+      padding: 4px 12px; border-radius: 100px; margin-bottom: 14px;
+    }
+    .il-course__title { font-weight: 700; font-size: 16px; color: var(--il-text); margin-bottom: 8px; line-height: 1.4; }
+    .il-course__desc { font-size: 13px; color: var(--il-muted); line-height: 1.6; margin-bottom: 16px; }
+    .il-course__meta {
+      display: flex; align-items: center; gap: 16px;
+      font-size: 12px; color: var(--il-muted);
+    }
+    .il-course__meta span { display: flex; align-items: center; gap: 5px; }
+
+    /* ── Sub-brand note ── */
+    .il-subbrand-note {
+      background: rgba(123,45,80,0.1);
+      border: 1px solid rgba(123,45,80,0.2);
+      border-radius: 16px; padding: 32px 40px;
+      display: flex; align-items: center; gap: 32px;
+      flex-wrap: wrap;
+    }
+    .il-subbrand-note img { height: 48px; width: auto; }
+    .il-subbrand-note__text { flex: 1; min-width: 240px; }
+    .il-subbrand-note__text h4 { font-size: 15px; font-weight: 700; color: var(--il-text); margin-bottom: 4px; }
+    .il-subbrand-note__text p { font-size: 13px; color: var(--il-muted); line-height: 1.6; }
+    .il-subbrand-note a {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--il-teal-lt); font-size: 13px; font-weight: 600;
+      text-decoration: none; white-space: nowrap;
+    }
+    .il-subbrand-note a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    .il-footer {
+      border-top: 1px solid var(--il-border);
+      padding: 60px 0 40px;
+    }
+    .il-footer__grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px; margin-bottom: 48px;
+    }
+    @media (max-width: 640px) { .il-footer__grid { grid-template-columns: 1fr; gap: 32px; } }
+    .il-footer__brand p { font-size: 14px; color: var(--il-muted); line-height: 1.7; margin-top: 12px; }
+    .il-footer__col h5 { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--il-muted); margin-bottom: 16px; }
+    .il-footer__links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+    .il-footer__links a { font-size: 14px; color: var(--il-muted); text-decoration: none; transition: color 0.2s; }
+    .il-footer__links a:hover { color: var(--il-text); }
+    .il-footer__bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+      padding-top: 32px; border-top: 1px solid var(--il-border);
+      font-size: 13px; color: var(--il-muted);
+    }
+    .il-footer__socials { display: flex; gap: 16px; }
+    .il-footer__socials a { color: var(--il-muted); transition: color 0.2s; }
+    .il-footer__socials a:hover { color: var(--il-text); }
+  </style>
+</head>
+<body class="il-page">
+
+  <!-- Sub-brand ribbon -->
+  <div class="il-subbrand">
+    Part of the <strong>AC-Eduworks</strong> family &nbsp;·&nbsp;
+    <a href="index.html">Visit AC-Eduworks &rarr;</a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="rebrand.html">Read Our Rebrand Story &rarr;</a>
+  </div>
+
+  <!-- NAV -->
+  <header class="il-header">
+    <div class="container">
+      <nav class="il-nav">
+        <a href="impactus.html" class="il-nav__logo">
+          <img src="images/impactus-logo.jpg" alt="Impactus Learning">
+        </a>
+        <ul class="il-nav__links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#courses">Courses</a></li>
+          <li><a href="training.html">Corporate</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="rebrand.html">Our Story</a></li>
+        </ul>
+        <a href="https://wa.me/6593942524" class="il-nav__cta" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Talk to Us
+        </a>
+        <button class="il-nav__toggle" id="ilNavToggle" aria-label="Open menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="il-hero">
+    <div class="il-hero__grid"></div>
+    <div class="container" style="position:relative; z-index:1;">
+      <div class="rebrand-hero__eyebrow" style="background:rgba(42,127,127,0.15); border:1px solid rgba(42,127,127,0.3); color:#3BA8A8; border-radius:100px; display:inline-block; padding:6px 18px; margin-bottom:28px; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;">
+        <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#3BA8A8; margin-right:8px; vertical-align:middle; animation:pulse-dot 2s infinite;"></span>
+        Formerly AC-Eduworks · Now Evolving
+      </div>
+
+      <h1 class="il-hero__title">
+        Learning That Leaves<br>
+        <span>A Lasting Impact</span>
+      </h1>
+      <p class="il-hero__sub">
+        Professional Gen AI training built for the people who drive organisations forward — practical, transformative, and designed for the future.
+      </p>
+
+      <div class="il-hero__actions">
+        <a href="training.html" class="il-btn il-btn--primary">
+          Explore Programmes
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="rebrand.html" class="il-btn il-btn--ghost">Our Rebrand Story</a>
+      </div>
+
+      <div class="il-hero__logo-wrap">
+        <img src="images/impactus-logo.jpg" alt="Impactus Learning — Empowering Minds">
+      </div>
+
+      <div class="il-stats">
+        <div class="il-stat">
+          <div class="il-stat__number">1,100+</div>
+          <div class="il-stat__label">Professionals Trained</div>
+        </div>
+        <div class="il-stat">
+          <div class="il-stat__number">30+</div>
+          <div class="il-stat__label">Years Experience</div>
+        </div>
+        <div class="il-stat">
+          <div class="il-stat__number">46+</div>
+          <div class="il-stat__label">Courses Delivered</div>
+        </div>
+        <div class="il-stat">
+          <div class="il-stat__number">100%</div>
+          <div class="il-stat__label">Practical Focus</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="il-section" id="about" style="background: var(--il-dark);">
+    <div class="container">
+      <div class="il-two-col">
+        <div>
+          <p class="il-section__tag">Our Philosophy</p>
+          <h2 class="il-section__title">Learning Built Around People, Not Programmes</h2>
+          <div class="il-section__body">
+            <p>At Impactus Learning, we believe that <strong>transformation starts with people</strong> — not slide decks. Every session is designed to connect learners with the tools, mindsets, and confidence they need to lead in an AI-powered world.</p>
+            <p>Led by <strong>Dr. Andrew Chew</strong>, a seasoned practitioner who has trained professionals across Singapore's top institutions and corporates, our programmes go beyond theory — delivering hands-on experiences that produce measurable results in the workplace.</p>
+            <p>The rebrand from AC-Eduworks to Impactus Learning marks a shift in scope: from a founder-led consultancy to a <strong>people-first learning organisation</strong> with a vision for the future of professional development in Asia.</p>
+          </div>
+          <div style="margin-top:32px; display:flex; gap:12px; flex-wrap:wrap;">
+            <a href="about.html" class="il-btn il-btn--ghost" style="font-size:14px; padding:10px 24px;">Meet Dr. Andrew</a>
+            <a href="rebrand.html" class="il-btn il-btn--ghost" style="font-size:14px; padding:10px 24px;">Read the Rebrand Story</a>
+          </div>
+        </div>
+        <div>
+          <div class="il-pillars" style="margin-top:0; grid-template-columns:1fr;">
+            <div class="il-pillar">
+              <div class="il-pillar__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <p class="il-pillar__title">People-Centric by Design</p>
+              <p class="il-pillar__desc">Every learning experience is crafted around the real needs, goals, and challenges of our participants — not just a curriculum checklist.</p>
+            </div>
+            <div class="il-pillar">
+              <div class="il-pillar__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <p class="il-pillar__title">Trusted by Leading Institutions</p>
+              <p class="il-pillar__desc">NTUC Learning Hub, SUSS, NTU, Vertical Institute, DP World APAC, Nespresso Singapore — and growing.</p>
+            </div>
+            <div class="il-pillar">
+              <div class="il-pillar__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <p class="il-pillar__title">Powered by Generative AI</p>
+              <p class="il-pillar__desc">Cutting-edge, practitioner-led content that keeps your team ahead of the curve — not playing catch-up.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section class="il-section" id="courses" style="background: rgba(255,255,255,0.02);">
+    <div class="container">
+      <p class="il-section__tag">What We Teach</p>
+      <h2 class="il-section__title">Gen AI Programmes for Professionals</h2>
+      <p class="il-section__body" style="margin-bottom:0;">From 1-hour online sessions to full-day corporate workshops — every programme is designed to build real capability, fast.</p>
+      <div class="il-courses">
+        <div class="il-course">
+          <span class="il-course__tag">1-Hour Online</span>
+          <h3 class="il-course__title">Generative AI for Business Professionals</h3>
+          <p class="il-course__desc">Master the fundamentals of Gen AI tools to boost productivity, creativity, and decision-making in your daily work.</p>
+          <div class="il-course__meta">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg> 1 Hour</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> All levels</span>
+            <span style="color:#3BA8A8; font-weight:600;">~$30</span>
+          </div>
+        </div>
+        <div class="il-course">
+          <span class="il-course__tag">Workshop</span>
+          <h3 class="il-course__title">ChatGPT &amp; Prompt Engineering Masterclass</h3>
+          <p class="il-course__desc">Go deep on prompting strategies, custom GPTs, and AI workflows that unlock 10x productivity in real business contexts.</p>
+          <div class="il-course__meta">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg> Half Day</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Intermediate</span>
+          </div>
+        </div>
+        <div class="il-course">
+          <span class="il-course__tag">Corporate</span>
+          <h3 class="il-course__title">AI Strategy for Leaders &amp; Managers</h3>
+          <p class="il-course__desc">Equip your leadership team to make informed AI decisions, drive adoption, and build an AI-ready culture across the organisation.</p>
+          <div class="il-course__meta">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg> Full Day</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Leadership</span>
+          </div>
+        </div>
+        <div class="il-course">
+          <span class="il-course__tag">1-Hour Online</span>
+          <h3 class="il-course__title">AI for Marketing &amp; Creative Teams</h3>
+          <p class="il-course__desc">Use AI to supercharge content creation, campaign ideation, audience targeting, and brand storytelling at speed.</p>
+          <div class="il-course__meta">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg> 1 Hour</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Marketing teams</span>
+            <span style="color:#3BA8A8; font-weight:600;">~$30</span>
+          </div>
+        </div>
+        <div class="il-course">
+          <span class="il-course__tag">Workshop</span>
+          <h3 class="il-course__title">AI Tools for Productivity &amp; Innovation</h3>
+          <p class="il-course__desc">Hands-on exploration of the best AI tools across writing, research, analysis, and automation — tailored for your industry.</p>
+          <div class="il-course__meta">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg> Half Day</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> All levels</span>
+          </div>
+        </div>
+        <div class="il-course">
+          <span class="il-course__tag">Custom</span>
+          <h3 class="il-course__title">Bespoke Corporate Programme</h3>
+          <p class="il-course__desc">Tailored curriculum built around your team's specific tools, goals, and industry context. Includes pre-training consultation.</p>
+          <div class="il-course__meta">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg> Flexible</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Teams &amp; Orgs</span>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:40px;">
+        <a href="https://wa.me/6593942524" class="il-btn il-btn--primary" target="_blank" rel="noopener">
+          Enquire About a Programme
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AC-EDUWORKS SUB-BRAND NOTE -->
+  <section class="il-section" style="background: var(--il-dark);">
+    <div class="container">
+      <div class="il-subbrand-note">
+        <img src="images/logo.jpg" alt="AC-Eduworks">
+        <div class="il-subbrand-note__text">
+          <h4>About AC-Eduworks</h4>
+          <p>Impactus Learning is the evolution of AC-Eduworks — a trusted name in Gen AI and corporate training since its founding by Dr. Andrew Chew. AC-Eduworks continues as a recognised sub-brand, preserving the legacy and credibility built across Singapore's leading institutions.</p>
+        </div>
+        <a href="rebrand.html">
+          Read the full rebrand story
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="il-footer" style="background: var(--il-darker);">
+    <div class="container">
+      <div class="il-footer__grid">
+        <div class="il-footer__brand">
+          <img src="images/impactus-logo.jpg" alt="Impactus Learning" style="height:40px; width:auto; border-radius:6px;">
+          <p>Empowering professionals and organisations to thrive in the age of AI. Formerly AC-Eduworks, led by Dr. Andrew Chew.</p>
+        </div>
+        <div class="il-footer__col">
+          <h5>Navigate</h5>
+          <ul class="il-footer__links">
+            <li><a href="impactus.html">Home</a></li>
+            <li><a href="training.html">Corporate Training</a></li>
+            <li><a href="schedule.html">Course Schedule</a></li>
+            <li><a href="testimonials.html">Testimonials</a></li>
+            <li><a href="rebrand.html">Our Rebrand Story</a></li>
+            <li><a href="index.html">AC-Eduworks Site</a></li>
+          </ul>
+        </div>
+        <div class="il-footer__col">
+          <h5>Contact</h5>
+          <ul class="il-footer__links">
+            <li><a href="https://wa.me/6593942524" target="_blank" rel="noopener">WhatsApp Dr. Andrew</a></li>
+            <li><a href="mailto:andrew@ac-eduworks.com">andrew@ac-eduworks.com</a></li>
+            <li><a href="tel:93942524">+65 9394 2524</a></li>
+            <li><a href="https://www.linkedin.com/in/andrew-chew-c-h/" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://www.youtube.com/@AndrewLearnsAI/videos" target="_blank" rel="noopener">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="il-footer__bottom">
+        <span>&copy; 2026 Impactus Learning / AC-Eduworks LLP. All rights reserved.</span>
+        <div class="il-footer__socials">
+          <a href="https://www.linkedin.com/in/andrew-chew-c-h/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@AndrewLearnsAI/videos" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Simple mobile nav for Impactus page
+    const toggle = document.getElementById('ilNavToggle');
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        const links = document.querySelector('.il-nav__links');
+        const isOpen = links.style.display === 'flex';
+        links.style.display = isOpen ? '' : 'flex';
+        links.style.flexDirection = 'column';
+        links.style.position = 'fixed';
+        links.style.top = '0'; links.style.left = '0';
+        links.style.width = '100vw'; links.style.height = '100vh';
+        links.style.background = '#0D1117';
+        links.style.alignItems = 'center'; links.style.justifyContent = 'center';
+        links.style.gap = '32px'; links.style.zIndex = '500';
+        if (isOpen) { links.style.display = 'none'; }
+      });
+    }
+  </script>
+</body>
+</html>
